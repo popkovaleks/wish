@@ -1,0 +1,13 @@
+services:
+  mysql:
+    container_name: 'guide-mysql'
+    image: 'mysql:latest'
+    env_file:
+      - .env
+    environment:
+      - 'MYSQL_DATABASE=${MYSQL_DATABASE}'
+      - 'MYSQL_PASSWORD=${SPRING_DATASOURCE_PASSWORD}'
+      - 'MYSQL_ROOT_PASSWORD=${ROOT_PASSWORD}'
+      - 'MYSQL_USER=${SPRING_DATASOURCE_USERNAME}'
+    ports:
+      - '3306:3306'
