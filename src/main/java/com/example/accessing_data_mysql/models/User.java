@@ -20,6 +20,9 @@ public class User {
     @OneToMany(mappedBy =  "user", cascade = CascadeType.ALL)
     private List<Item> items;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Password password;
+
     public Long getId() {
         return id;
     }
