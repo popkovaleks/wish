@@ -1,6 +1,7 @@
 package com.example.accessing_data_mysql.controllers;
 
 
+import com.example.accessing_data_mysql.dto.UserCreateDto;
 import com.example.accessing_data_mysql.dto.UserResponseDto;
 import com.example.accessing_data_mysql.models.User;
 import com.example.accessing_data_mysql.repository.UserRepository;
@@ -21,10 +22,11 @@ public class MainController {
     @PostMapping(path="/add")
     public @ResponseBody String addNewUser (@RequestParam String name, @RequestParam String email) {
 
-        User newUser = new User();
-        newUser.setName(name);
-        newUser.setEmail(email);
-        userRepository.save(newUser);
+        UserCreateDto userDto = new UserCreateDto();
+        userDto.setName(name);
+        userDto.setEmail(email);
+
+        userRepository.save(toEntity(userDto));
 
         return "Saved";
 
@@ -48,5 +50,13 @@ public class MainController {
         dto.setName(user.getName());
         dto.setEmail(user.getEmail());
         return dto;
+    }
+
+    public static User toEntity(UserCreateDto userDto){
+        User user = new User();
+        user.setName(userDto.getName());
+        user.setEmail(userDto.getEmail());
+        return user;
+
     }
 }
