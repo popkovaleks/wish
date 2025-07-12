@@ -1,5 +1,6 @@
 package com.example.accessing_data_mysql.controllers;
 
+import com.example.accessing_data_mysql.dto.ItemCreateDto;
 import com.example.accessing_data_mysql.models.Item;
 import com.example.accessing_data_mysql.models.User;
 import com.example.accessing_data_mysql.repository.ItemRepository;
@@ -23,11 +24,33 @@ public class WishlistController {
 
 
     @PostMapping(path = "/items/create")
-    public Item createItem(@RequestBody Item item){
+    public ItemCreateDto createItem(@RequestBody ItemCreateDto itemDto){
+
+
 
 //        Optional<User> userOpt = userRepository.findById((item.getUser().getId()));
 //        item.setUser(userOpt.get());
-        itemRepository.save(item);
+        Item savedItem = itemRepository.save(toEntity(itemDto));
+        return toDto(savedItem);
+    }
+
+    public Item toEntity(ItemCreateDto itemDto){
+        Item item = new Item();
+
+        item.setUser(userRepository.findById(itemDto.getUserId()).get());
+        item.setLink(itemDto.getLink());
+        item.setName(itemDto.getName());
+        item.setPrice(itemDto.getPrice());
         return item;
+    }
+
+    public ItemCreateDto toDto(Item item){
+        ItemCreateDto itemDto = new ItemCreateDto();
+
+        itemDto.setUserId(item.getUser().getId());
+        itemDto.setLink(item.getLink());
+        itemDto.setPrice(item.getPrice());
+        itemDto.setName(item.getName());
+        return itemDto;
     }
 }
