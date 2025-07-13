@@ -11,13 +11,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class ItemMapper {
 
-    @Autowired
-    private UserRepository userRepository;
+
 
     public Item toEntity(ItemCreateDto itemDto){
         Item item = new Item();
 
-        item.setUser(userRepository.findById(itemDto.getUserId()).get());
         item.setLink(itemDto.getLink());
         item.setName(itemDto.getName());
         item.setPrice(itemDto.getPrice());

@@ -2,10 +2,14 @@ package com.example.accessing_data_mysql.models;
 
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
 public class User {
 
 
@@ -17,33 +21,9 @@ public class User {
 
     private String email;
 
-    @OneToMany(mappedBy =  "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy =  "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Item> items;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Password password;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }
