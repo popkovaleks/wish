@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.example.accessing_data_mysql.mappers.UserMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import static com.example.accessing_data_mysql.service.PasswordHasher.generateSalt;
 import static com.example.accessing_data_mysql.service.PasswordHasher.hashPassword;
@@ -26,6 +27,7 @@ public class UserService {
     @Autowired
     private UserMapper userMapper;
 
+    @Transactional
     public void registerUser(UserCreateDto userDto){
         if (userRepository.findByEmail(userDto.getEmail()).isPresent()){
             throw new RuntimeException("User already exists");

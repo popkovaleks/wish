@@ -28,8 +28,7 @@ public class ItemService {
     private ItemMapper itemMapper;
 
     public ItemCreateDto create(ItemCreateDto itemCreateDto){
-        Item item = itemMapper.toEntity(itemCreateDto);
-        item.setUser(userRepository.findById(itemCreateDto.getUserId()).get());
+        Item item = setItemUser(itemCreateDto);
 
         Item savedItem = itemRepository.save(item);
         return itemMapper.toDto(savedItem);
@@ -50,5 +49,11 @@ public class ItemService {
         }
 
         return itemsDto;
+    }
+
+    public Item setItemUser(ItemCreateDto itemCreateDto){
+        Item item = itemMapper.toEntity(itemCreateDto);
+        item.setUser(userRepository.findById(itemCreateDto.getUserId()).get());
+        return item;
     }
 }
